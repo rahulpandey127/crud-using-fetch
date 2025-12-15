@@ -1,0 +1,42 @@
+.nav-link{
+  color: white;
+}
+
+.table-title{
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.btn1{
+  height: 28px;
+  padding-top: 0;
+  display: flex;
+  padding-left: 10px 0px;
+}
+
+.btn-box{
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  background: white;
+}
+
+
+
+.action{
+  width: 18%;
+}
+
+.pic{
+  max-width: 80px;
+  max-height: 80px;
+  margin: auto;
+}
+
+.pic1{
+  max-width: 120px;
+  max-height: 120px;
+  margin: auto;
+}
