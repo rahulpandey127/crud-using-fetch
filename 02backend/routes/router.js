@@ -9,7 +9,10 @@ router.get("/allUsers", async (req, res) => {
     let users = await Users.find();
     if (!users) return res.status(404).json({ message: "No users found" });
 
-    res.status(200).json({ message: "User found successful", data: users });
+    res.status(200).json({
+      message: "User found successful",
+      data: users,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -111,6 +114,51 @@ router.get("/getUser/:id", async (req, res) => {
       res.status(404).json({ message: "User not found" });
     }
     res.status(200).json({ message: "User found successfully", data: user });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.get("/getAllUser", async (req, res) => {
+  // console.log(req.query.search);
+  // console.log(req.query.page);
+  // console.log(req.query.limit);
+  try {
+    let page = parseInt(req.query.page) || 1;
+    let limit = parseInt(req.query.limit) || 3;
+    let searchItem = req.query.search || "";
+    let totaluser = await Users.countDocuments(searchItem);
+    console.log(totaluser);
+    let totalpages = Math.ceil(totaluser / limit);
+    let skip = (page - 1) * limit;
+    console.log(
+      "page:" + page,
+      "limit:" + limit,
+      "totalpages:" + totalpages,
+      "skip:" + skip
+    );
+    let search = {
+      $or: [
+        { name: { $regex: `^${searchItem}`, $options: "i" } },
+        { email: { $regex: `^${searchItem}`, $options: "i" } },
+        { mobile: { $regex: `^${searchItem}` } },
+      ],
+    };
+    let users = await Users.find(search).skip(skip).limit(limit);
+
+    if (!users) {
+      res.status(404).json({ message: "Users not found" });
+    }
+
+    res.status(201).json({
+      message: "Searched users found successfully",
+      data: users,
+      total: totaluser,
+      pages: totalpages,
+      limit: limit,
+      page: page,
+    });
+    console.log(users);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

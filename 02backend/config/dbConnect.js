@@ -3,7 +3,9 @@ import React from "react";
 
 const dbConnect = () => {
   mongoose
-    .connect("mongodb://localhost:27017/fromdetails")
+    .connect(
+      "mongodb+srv://rkpandey1421_db_user:2izMQ3KKGCYO6HbC@myfirstpro.znwrlk5.mongodb.net/formdetails"
+    )
     .then(() => {
       console.log("Database connected successfully");
     })
